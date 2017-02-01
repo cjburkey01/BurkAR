@@ -1,0 +1,19 @@
+name: BurkAR
+main: com.cjburkey.plugin.ar.BurkAR
+author: CJ Burkey
+database: false
+prefix: BurkAR
+version: 1.0.0
+website: http://bit.ly/2kth834
+
+permission:
+  burkar.use:
+    description: Whether or not the player has the ability to use BurkAR.
+    default: true
+
+commands:
+  bar:
+    description: The BurkAR base command.
+    usage: /<command>
+    permission: burkar.use
+    permission-message: '§4You do not have permission to use Autorank.'
