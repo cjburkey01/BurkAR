@@ -1,0 +1,17 @@
+# BurkAR 1.0.0
+# Written by CJ Burkey
+# 
+# Whether or not you should see some extra info.
+# Default: true
+# Options: true, false
+extraDebugInConsole: true
+# 
+# Whether or not the times should be saved automatically.
+# Default: true
+# Options: true, false
+saveAutomatically: true
+# 
+# How often times should be saved, only if enabled.
+# Default: 300
+# Options: Integer from 1 to 1200
+autoSaveTimeInSeconds: 300
