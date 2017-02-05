@@ -15,3 +15,8 @@ saveAutomatically: true
 # Default: 300
 # Options: Integer from 1 to 1200
 autoSaveTimeInSeconds: 300
+#
+# How often time is updated in ticks(20 ticks = 1 second)
+# Default: 5
+# Options: Integer from 1 to 20
+tickTimeUpdate: 5
