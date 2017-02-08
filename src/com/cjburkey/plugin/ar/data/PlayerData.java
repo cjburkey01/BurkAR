@@ -34,12 +34,14 @@ public class PlayerData implements Serializable {
 	public void addTicks(long ticks) { this.ticks += ticks; }
 	public void achieve(Goal goal) {
 		this.achievedGoals.put(goal.getName(), goal.getRequiredTicks());
-		for(String cmd : goal.getCommands()) {
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replaceAll("%p%", this.plyName));
+		if(!Bukkit.getPlayer(this.uuid).hasPermission("burkar.ignore")) {
+			for(String cmd : goal.getCommands()) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replaceAll("%p%", this.plyName));
+			}
+			
+			if(!goal.getServerMessage().isEmpty()) Util.broadcast(goal.getServerMessage().replaceAll("%p%", plyName));
+			if(!goal.getClientMessage().isEmpty()) Util.chat(Bukkit.getPlayer(this.uuid), goal.getClientMessage().replaceAll("%p%", plyName));
 		}
-		
-		if(!goal.getServerMessage().isEmpty()) Util.broadcast(goal.getServerMessage().replaceAll("%p%", plyName));
-		if(!goal.getClientMessage().isEmpty()) Util.chat(Bukkit.getPlayer(this.uuid), goal.getClientMessage().replaceAll("%p%", plyName));
 	}
 	
 }

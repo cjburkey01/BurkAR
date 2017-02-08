@@ -3,7 +3,7 @@ main: com.cjburkey.plugin.ar.BurkAR
 author: CJ Burkey
 database: false
 prefix: BurkAR
-version: 1.0.0
+version: 1.0.1
 website: http://bit.ly/2kth834
 
 permission:
@@ -16,6 +16,9 @@ permission:
   burkar.others:
     description: Whether or not the player has the ability to check other players' times.
     default: op
+  burkar.ignore:
+    description: If this is set, the player will not trigger goals.
+    default: false
 
 commands:
   bar:
