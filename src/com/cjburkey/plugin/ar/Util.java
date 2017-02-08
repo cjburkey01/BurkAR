@@ -21,7 +21,11 @@ public class Util {
 	}
 	
 	public static final void chat(CommandSender to, String msg) {
-		to.sendMessage(color(msg));
+		to.sendMessage(color(Util.getLangMsg("Prefix") + msg));
+	}
+	
+	public static final void broadcast(String msg) {
+		Bukkit.broadcastMessage(color(Util.getLangMsg("Prefix") + msg));
 	}
 	
 	public static final String formatTime(long ticks) {

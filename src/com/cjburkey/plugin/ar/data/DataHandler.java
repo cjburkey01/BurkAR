@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -56,7 +58,7 @@ public class DataHandler {
 	private static final void loadGoals() {
 		goals.clear();
 		try {
-			if(IO.getTimeDataFile().exists()) {
+			if(IO.getGoalDataFile().exists()) {
 				List<String> lines = new ArrayList<String>();
 				BufferedReader reader = new BufferedReader(new FileReader(IO.getGoalDataFile()));
 				String ln = null;
@@ -68,20 +70,28 @@ public class DataHandler {
 				reader.close();
 				for(String line : lines) {
 					String[] args = line.split(";");
-					if(args.length == 3) {
-						String name = args[0];
-						long ticks = Long.parseLong(args[1]);
+					if(args.length == 5) {
+						String name = args[0].trim();
+						long ticks = Long.parseLong(args[1].trim());
 						List<String> cmds = new ArrayList<String>();
-						Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(args[2]);
+						Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(args[2].trim());
 						while(m.find()) {
-							cmds.add(m.group(1));
+							String toAdd = m.group(1);
+							cmds.add(toAdd.substring(1, toAdd.length() - 1));
 						}
-						Goal g = new Goal(name, ticks, cmds);
+						Goal g = new Goal(name, ticks, cmds, args[3].trim(), args[4].trim());
 						goals.add(g);
 					}
 				}
 			} else {
 				IO.getGoalDataFile().createNewFile();
+				try {
+					FileWriter writer = new FileWriter(IO.getGoalDataFile());
+					writer.write("# Format: NAME;TIME_IN_TICKS;\"command one\" \"command two\" \"etc\";SERVER_MSG;PLAYER_MSG");
+					writer.close();
+				} catch(Exception e) {
+					Util.error(e, "There was an error creating the default goals file.");
+				}
 			}
 		} catch(Exception e) {
 			Util.error(e, "There was an error loading the goals file.");
@@ -110,22 +120,20 @@ public class DataHandler {
 	}
 	
 	public static final void setTimeOfPlayerInTicks(UUID id, long timeInTicks) {
-		for(PlayerData data : times) {
-			if(data.getPlayer().equals(id)) {
-				long toAdd = timeInTicks - data.getTicks();
-				data.addTicks(toAdd);
-				return;
-			}
+		PlayerData dat = getData(id);
+		if(dat != null) {
+			long toAdd = timeInTicks - dat.getTicks();
+			dat.addTicks(toAdd);
+			return;
 		}
-		PlayerData data = new PlayerData(Bukkit.getOfflinePlayer(id).getName(), id, timeInTicks, new ArrayList<Goal>());
+		PlayerData data = new PlayerData(Bukkit.getOfflinePlayer(id).getName(), id, timeInTicks, new HashMap<String, Long>());
 		times.add(data);
 	}
 	
 	public static final long getTimeOfPlayerInTicks(UUID id) {
-		for(PlayerData data : times) {
-			if(data.getPlayer().equals(id)) {
-				return data.getTicks();
-			}
+		PlayerData dat = getData(id);
+		if(dat != null) {
+			return dat.getTicks();
 		}
 		return -1;
 	}
@@ -145,6 +153,38 @@ public class DataHandler {
 			out.add(dat.getUsername());
 		}
 		return out;
+	}
+	
+	public static final boolean hasAchieved(UUID ply, Goal ach) {
+		PlayerData dat = getData(ply);
+		if(dat != null) {
+			return dat.hasAchieved(ach);
+		}
+		return false;
+	}
+	
+	public static final PlayerData getData(UUID ply) {
+		for(PlayerData dat : times) {
+			if(dat.getPlayer().equals(ply)) {
+				return dat;
+			}
+		}
+		return null;
+	}
+	
+	public static final void checkPlayersForGoals() {
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			for(Goal g : goals) {
+				if(getTimeOfPlayerInTicks(p.getUniqueId()) >= g.getRequiredTicks()) {
+					if(!hasAchieved(p.getUniqueId(), g)) {
+						PlayerData dat = getData(p.getUniqueId());
+						if(dat != null) {
+							dat.achieve(g);
+						}
+					}
+				}
+			}
+		}
 	}
 	
 }

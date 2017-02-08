@@ -4,6 +4,7 @@ extraDebugInConsole: true
 saveAutomatically: true
 autoSaveTimeInSeconds: 300
 tickTimeUpdate: 5
+langPrefix: '&6[&aBurkAR&6]&r '
 langTimeFormat: '%d:%02d:%02d'
 langUsage: '&4Usage: /bar <username>'
 langLackPermOthers: '&4You don''t have permission to view other players'' times.'

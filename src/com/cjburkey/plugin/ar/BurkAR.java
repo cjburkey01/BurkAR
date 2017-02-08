@@ -44,6 +44,7 @@ public class BurkAR extends JavaPlugin {
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			DataHandler.addTicksToAllOnlinePlayers(getConfig().getInt("tickTimeUpdate"));
+			DataHandler.checkPlayersForGoals();
 		}, 0, this.getConfig().getInt("tickTimeUpdate"));
 	}
 	
