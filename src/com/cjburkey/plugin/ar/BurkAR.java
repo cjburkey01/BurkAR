@@ -8,7 +8,7 @@ import com.cjburkey.plugin.ar.data.DataHandler;
 
 public class BurkAR extends JavaPlugin {
 	
-	public static final String version = "1.0.1";
+	public static final String version = "1.0.2";
 	
 	public static BurkAR instance;
 	
