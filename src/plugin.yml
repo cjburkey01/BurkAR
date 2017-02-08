@@ -10,10 +10,16 @@ permission:
   burkar.use:
     description: Whether or not the player has the ability to use BurkAR.
     default: true
+  burkar.info:
+    description: View basic information about the plugin.
+    default: true
+  burkar.others:
+    description: Whether or not the player has the ability to check other players' times.
+    default: op
 
 commands:
   bar:
     description: The BurkAR base command.
-    usage: /<command>
+    usage: /<command> [player]
     permission: burkar.use
-    permission-message: '§4You do not have permission to use Autorank.'
+    permission-message: '§4You do not have permission to use BurkAR.'

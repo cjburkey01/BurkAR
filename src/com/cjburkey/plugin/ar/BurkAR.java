@@ -1,8 +1,14 @@
 package com.cjburkey.plugin.ar;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import com.cjburkey.plugin.ar.cmd.CommandBAR;
+import com.cjburkey.plugin.ar.cmd.TabCompleterBAR;
+import com.cjburkey.plugin.ar.data.DataHandler;
 
 public class BurkAR extends JavaPlugin {
+	
+	public static final String version = "1.0.0";
 	
 	public static BurkAR instance;
 	
@@ -10,32 +16,35 @@ public class BurkAR extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		
-		getConfig().options().copyDefaults(true);
-		saveConfig();
-		if(getConfig().getInt("autoSaveTimeInSeconds") > 1200) {
-			getConfig().set("autoSaveTimeInSeconds", 1200);
-		} else if(getConfig().getInt("autoSaveTimeInSeconds") < 1) {
-			getConfig().set("autoSaveTimeInSeconds", 1);
+		this.getConfig().options().copyDefaults(true);
+		this.saveConfig();
+		if(this.getConfig().getInt("autoSaveTimeInSeconds") > 1200) {
+			this.getConfig().set("autoSaveTimeInSeconds", 1200);
+		} else if(this.getConfig().getInt("autoSaveTimeInSeconds") < 1) {
+			this.getConfig().set("autoSaveTimeInSeconds", 1);
 		}
-		if(getConfig().getInt("tickTimeUpdate") > 20) {
-			getConfig().set("tickTimeUpdate", 20);
-		} else if(getConfig().getInt("tickTimeUpdate") < 1) {
-			getConfig().set("tickTimeUpdate", 1);
+		if(this.getConfig().getInt("tickTimeUpdate") > 20) {
+			this.getConfig().set("tickTimeUpdate", 20);
+		} else if(this.getConfig().getInt("tickTimeUpdate") < 1) {
+			this.getConfig().set("tickTimeUpdate", 1);
 		}
-		saveConfig();
+		this.saveConfig();
+		
+		this.getCommand("bar").setExecutor(new CommandBAR());
+		this.getCommand("bar").setTabCompleter(new TabCompleterBAR());
 		
 		DataHandler.loadDataFromFile();
 		
 		// Run every 5 ticks forever.
 		if(getConfig().getBoolean("saveAutomatically")) {
-			getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 				DataHandler.saveDataToFile();
-			}, 0, getConfig().getInt("autoSaveTimeInSeconds") * 20);
+			}, 0, this.getConfig().getInt("autoSaveTimeInSeconds") * 20);
 		}
 		
-		getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 			DataHandler.addTicksToAllOnlinePlayers(getConfig().getInt("tickTimeUpdate"));
-		}, 0, getConfig().getInt("tickTimeUpdate"));
+		}, 0, this.getConfig().getInt("tickTimeUpdate"));
 	}
 	
 	@Override

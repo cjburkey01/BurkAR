@@ -1,22 +1,15 @@
 # BurkAR 1.0.0
 # Written by CJ Burkey
-# 
-# Whether or not you should see some extra info.
-# Default: true
-# Options: true, false
 extraDebugInConsole: true
-# 
-# Whether or not the times should be saved automatically.
-# Default: true
-# Options: true, false
 saveAutomatically: true
-# 
-# How often times should be saved, only if enabled.
-# Default: 300
-# Options: Integer from 1 to 1200
 autoSaveTimeInSeconds: 300
-#
-# How often time is updated in ticks(20 ticks = 1 second)
-# Default: 5
-# Options: Integer from 1 to 20
 tickTimeUpdate: 5
+langTimeFormat: '%d:%02d:%02d'
+langUsage: '&4Usage: /bar <username>'
+langLackPermOthers: '&4You don''t have permission to view other players'' times.'
+langLackPermInfo: '&4You don''t have permission to view info about BurkAR.'
+langLackPerm: '&4You don''t have permission to use BurkAR.'
+langErr: '&4There was an error while retrieving your play time.'
+langSelf: '&2You''ve spent %s on the server.  Nice!'
+langOther: '&2''%s'' has spent %s on the server.'
+langInfo: '&2BurkAR version: %s'

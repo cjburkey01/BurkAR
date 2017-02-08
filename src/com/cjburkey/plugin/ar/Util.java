@@ -24,4 +24,14 @@ public class Util {
 		to.sendMessage(color(msg));
 	}
 	
+	public static final String formatTime(long ticks) {
+		long seconds = ticks / 20l;
+	    String positive = String.format(getLangMsg("TimeFormat"), seconds / 3600, (seconds % 3600) / 60, seconds % 60);
+	    return seconds < 0 ? "-" + positive : positive;
+	}
+	
+	public static final String getLangMsg(String title) {
+		return BurkAR.instance.getConfig().getString("lang" + title);
+	}
+	
 }
