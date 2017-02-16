@@ -8,8 +8,11 @@ import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -185,6 +188,33 @@ public class DataHandler {
 				}
 			}
 		}
+	}
+	
+	public static final Goal hashToGoal(Entry<String, Long> ent) {
+		for(Goal g : goals) {
+			if(g.getName().equals(ent.getKey()) && g.getRequiredTicks() == ent.getValue()) {
+				return g;
+			}
+		}
+		return null;
+	}
+	
+	public static final Goal nextGoal(UUID ply) {
+		PlayerData dat = getData(ply);
+		if(dat.getTicks() > -1) {
+			Set<Entry<String, Long>> achieved = dat.getAchievedGoals();
+			List<Goal> ached = new ArrayList<Goal>();
+			for(Entry<String, Long> ach : achieved) {
+				Goal g = hashToGoal(ach);
+				if(g != null) {
+					ached.add(g);
+				}
+			}
+			ached.sort(Comparator.comparing(Goal::getRequiredTicks));
+			if(ached.size() >= goals.size()) { return null; }
+			return goals.get(ached.size());
+		}
+		return null;
 	}
 	
 }

@@ -1,4 +1,4 @@
-# BurkAR 1.0.2
+# BurkAR 1.0.3
 # Written by CJ Burkey
 extraDebugInConsole: true
 saveAutomatically: true
@@ -11,6 +11,7 @@ langLackPermOthers: '&4You don''t have permission to view other players'' times.
 langLackPermInfo: '&4You don''t have permission to view info about BurkAR.'
 langLackPerm: '&4You don''t have permission to use BurkAR.'
 langErr: '&4There was an error while retrieving your play time.'
-langSelf: '&2You''ve spent %s on the server.  Nice!'
+langSelf: '&2You''ve spent %s on the server.  Next goal: %s in %s'
+langSelfNone: '&2You''ve spent %s on the server.  Nice!'
 langOther: '&2''%s'' has spent %s on the server.'
 langInfo: '&2BurkAR version: %s'

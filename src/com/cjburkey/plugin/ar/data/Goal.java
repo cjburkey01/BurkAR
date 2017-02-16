@@ -30,10 +30,11 @@ public class Goal implements Serializable {
 	public String getClientMessage() { return this.msgClient; }
 	
 	public Goal clone() { return new Goal(this.name, this.ticks, this.commands, this.msgServer, this.msgClient); }
+	public String toString() { return this.name; }
 	public boolean equals(Object other) {
 		if(other instanceof Goal) {
 			Goal otro = (Goal) other;
-			return otro.name.equals(this.name) && otro.ticks == this.ticks;
+			return otro.name.equals(this.name);
 		}
 		return false;
 	}

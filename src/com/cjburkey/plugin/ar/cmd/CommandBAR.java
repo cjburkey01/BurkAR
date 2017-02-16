@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import com.cjburkey.plugin.ar.BurkAR;
 import com.cjburkey.plugin.ar.Util;
 import com.cjburkey.plugin.ar.data.DataHandler;
+import com.cjburkey.plugin.ar.data.Goal;
 
 public class CommandBAR implements CommandExecutor {
 
@@ -60,7 +61,12 @@ public class CommandBAR implements CommandExecutor {
 		if(time == -1) {
 			Util.chat(player, Util.getLangMsg("Err"));
 		} else {
-			Util.chat(player, String.format(Util.getLangMsg("Self"), Util.formatTime(time)));
+			Goal next = DataHandler.nextGoal(player.getUniqueId());
+			if(next != null) {
+				Util.chat(player, String.format(Util.getLangMsg("Self"), Util.formatTime(time), next.toString(), Util.formatTime(next.getRequiredTicks() - time)));
+			} else {
+				Util.chat(player, String.format(Util.getLangMsg("SelfNone"), Util.formatTime(time)));
+			}
 		}
 	}
 	
