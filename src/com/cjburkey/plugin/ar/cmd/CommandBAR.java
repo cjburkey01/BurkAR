@@ -44,10 +44,14 @@ public class CommandBAR implements CommandExecutor {
 						Util.chat(player, Util.getLangMsg("LackPermInfo"));
 					}
 				} else {
-					if(player.hasPermission("burkar.others")) {
-						other(player, args[0]);
+					if(player.getName().equals(args[0])) {
+						self(player);
 					} else {
-						Util.chat(player, Util.getLangMsg("LackPermOthers"));
+						if(player.hasPermission("burkar.others")) {
+							other(player, args[0]);
+						} else {
+							Util.chat(player, Util.getLangMsg("LackPermOthers"));
+						}
 					}
 				}
 			}
