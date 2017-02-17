@@ -3,7 +3,7 @@ main: com.cjburkey.plugin.ar.BurkAR
 author: CJ Burkey
 database: false
 prefix: BurkAR
-version: 1.0.3
+version: 1.0.4
 website: http://bit.ly/2kth834
 
 permission:

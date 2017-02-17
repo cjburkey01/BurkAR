@@ -1,4 +1,4 @@
-# BurkAR 1.0.3
+# BurkAR 1.0.4
 # Written by CJ Burkey
 extraDebugInConsole: true
 saveAutomatically: true
@@ -15,3 +15,5 @@ langSelf: '&2You''ve spent %s on the server.  Next goal: %s in %s'
 langSelfNone: '&2You''ve spent %s on the server.  Nice!'
 langOther: '&2''%s'' has spent %s on the server.'
 langInfo: '&2BurkAR version: %s'
+langUpdate: '&4&lThere is a new version of BurkAR available!  Your version: %s, latest version: %s'
+langNoUpdate: '&2No updates available.'

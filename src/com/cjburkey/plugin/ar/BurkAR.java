@@ -5,16 +5,23 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.cjburkey.plugin.ar.cmd.CommandBAR;
 import com.cjburkey.plugin.ar.cmd.TabCompleterBAR;
 import com.cjburkey.plugin.ar.data.DataHandler;
+import com.cjburkey.plugin.ar.event.EventPlayerJoin;
 
 public class BurkAR extends JavaPlugin {
 	
-	public static final String version = "1.0.3";
+	public static final String version = "1.0.4";
+	public static String updateAvailable;
 	
 	public static BurkAR instance;
+	
+	public static void main(String[] args) { System.out.println("Ignore me, I'm only here to help CJ export the plugin."); }
 	
 	@Override
 	public void onEnable() {
 		instance = this;
+		
+		updateAvailable = UpdateChecker.updateReady();
+		updateAvailable = (updateAvailable == null || updateAvailable.equals(version)) ? null : updateAvailable;
 		
 		this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
@@ -34,6 +41,8 @@ public class BurkAR extends JavaPlugin {
 		this.getCommand("bar").setTabCompleter(new TabCompleterBAR());
 		
 		DataHandler.loadDataFromFile();
+		
+		this.getServer().getPluginManager().registerEvents(new EventPlayerJoin(), this);
 		
 		// Run every 5 ticks forever.
 		if(getConfig().getBoolean("saveAutomatically")) {
